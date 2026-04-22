@@ -23,11 +23,9 @@ int main() {
     struct Calendar myCalendar = {NULL, NULL};
     int choice;
     
-    // Load existing data from file
     loadFromFile(&myCalendar, "calendar_data.txt");
     
     while (1) {
-        // ALWAYS display calendar first
         printf("\n========== SMART CALENDAR ==========");
         displayCalendar(&myCalendar);
         displayMenu();
