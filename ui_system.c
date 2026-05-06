@@ -169,3 +169,5 @@ void showCategoryTree(struct Calendar* cal) {
 
     freeTree(root);
 }
+
+//test
