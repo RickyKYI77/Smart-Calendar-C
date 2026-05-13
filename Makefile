@@ -1,16 +1,25 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -g
+CFLAGS = -Wall -Wextra -g -I.
 
-all: main
+SRC = main.c display.c event_core.c fileio.c search_algorithms.c
+OBJ = $(SRC:.c=.o)
 
-main: main.o calendar.o
-	$(CC) $(CFLAGS) -o main main.o calendar.o
+OUT_DIR = output
+TARGET = $(OUT_DIR)/smart_calendar
 
-main.o: main.c
-	$(CC) $(CFLAGS) -c main.c
+all: $(OUT_DIR) $(TARGET)
 
-calendar.o: calendar.c
-	$(CC) $(CFLAGS) -c calendar.c
+$(OUT_DIR):
+	mkdir -p $(OUT_DIR)
+
+$(TARGET): $(OBJ)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+run: all
+	./$(TARGET)
 
 clean:
-	rm -f *.o main
+	rm -f *.o $(TARGET)
