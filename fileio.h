@@ -1,7 +1,7 @@
-#ifndef FILE_H
-#define FILE_H
+#ifndef FILEIO_H
+#define FILEIO_H
 
-#include "calendar.h"
+#include "event_core.h"
 
 void saveToFile(struct Calendar* cal, const char* filename);
 void loadFromFile(struct Calendar* cal, const char* filename);
