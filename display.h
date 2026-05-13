@@ -4,8 +4,6 @@
 #include "calendar.h"
 
 void displayCalendar(struct Calendar* cal);
-void displayMenu();
-void showAllEvents(struct Calendar* cal);
 int getEventCount(struct Calendar* cal, int day);
 
 #endif

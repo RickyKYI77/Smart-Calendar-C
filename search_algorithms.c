@@ -1,106 +1,174 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "search_algorithms.h"
 #include "calendar.h"
+#include "event_core.h"
 
+// ================= SEARCH BY KEYWORD =================
 void searchByKeyword(struct Calendar* cal) {
-    char k[100];
+    char keyword[100];
     printf("Enter keyword: ");
-    scanf(" %[^\n]", k);
+    scanf(" %[^\n]", keyword);
 
-    struct Event* c = cal->head;
+    struct Event* current = cal->head;
+    int found = 0;
 
-    while (c) {
-        if (strstr(c->title, k) || strstr(c->category, k)) {
-            printf("%s\n", c->title);
+    printf("\n========== SEARCH RESULTS ==========\n");
+
+    while (current != NULL) {
+        if (strstr(current->title, keyword) || strstr(current->category, keyword)) {
+            printf("%s | Date: %d | Time: %02d:%02d - %02d:%02d | Category: %s | Priority: %d\n",
+                   current->title,
+                   current->day,
+                   current->startHour, current->startMinute,
+                   current->endHour, current->endMinute,
+                   current->category,
+                   current->priority);
+            found = 1;
         }
-        c = c->next;
+        current = current->next;
+    }
+
+    if (!found) {
+        printf("No matching events found.\n");
     }
 }
 
+// ================= SEARCH BY CATEGORY =================
 void searchByCategory(struct Calendar* cal) {
-    char cat[50];
+    char category[50];
     printf("Enter category: ");
-    scanf(" %[^\n]", cat);
+    scanf(" %[^\n]", category);
 
-    struct Event* c = cal->head;
+    struct Event* current = cal->head;
+    int found = 0;
 
-    while (c) {
-        if (!strcmp(c->category, cat)) {
-            printf("%s\n", c->title);
+    printf("\n========== CATEGORY RESULTS ==========\n");
+
+    while (current != NULL) {
+        if (strcmp(current->category, category) == 0) {
+            printf("%s | Date: %d | Time: %02d:%02d - %02d:%02d | Priority: %d\n",
+                   current->title,
+                   current->day,
+                   current->startHour, current->startMinute,
+                   current->endHour, current->endMinute,
+                   current->priority);
+            found = 1;
         }
-        c = c->next;
+        current = current->next;
+    }
+
+    if (!found) {
+        printf("No events found.\n");
     }
 }
 
+// ================= SEARCH BY DATE =================
 void searchByDate(struct Calendar* cal) {
-    int d;
-    printf("Enter date: ");
-    scanf("%d", &d);
-
-    struct Event* c = cal->head;
-
-    while (c) {
-        if (c->day == d)
-            printf("%s\n", c->title);
-        c = c->next;
-    }
-}
-
-void showFreeTimeSlots(struct Calendar* cal) {
     int day;
-    printf("Enter day (1-31): ");
+    printf("Enter date (1-31): ");
     scanf("%d", &day);
 
+    struct Event* current = cal->head;
     struct Event* arr[100];
-    int n = 0;
+    int count = 0;
 
-    struct Event* c = cal->head;
-
-    while (c) {
-        if (c->day == day) {
-            arr[n++] = c;
+    while (current != NULL) {
+        if (current->day == day) {
+            arr[count++] = current;
         }
-        c = c->next;
+        current = current->next;
     }
 
-    if (n == 0) {
-        printf("Whole day is free (no events).\n");
-        printf("09:00 - 17:00 available.\n");
-        return;
+    // sort by time (NO swap function needed)
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - i - 1; j++) {
+
+            int t1 = arr[j]->startHour * 60 + arr[j]->startMinute;
+            int t2 = arr[j+1]->startHour * 60 + arr[j+1]->startMinute;
+
+            if (t1 > t2) {
+                struct Event* temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
+            }
+        }
     }
 
-    /* SORT by start time */
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            if (timeToMinutes(arr[j]->startHour, arr[j]->startMinute) >
-                timeToMinutes(arr[j+1]->startHour, arr[j+1]->startMinute)) {
-                swap(&arr[j], &arr[j+1]);
+    printf("\n========== EVENTS ON %d ==========\n", day);
+
+    for (int i = 0; i < count; i++) {
+        printf("%s | %02d:%02d - %02d:%02d | %s | Priority: %d\n",
+               arr[i]->title,
+               arr[i]->startHour, arr[i]->startMinute,
+               arr[i]->endHour, arr[i]->endMinute,
+               arr[i]->category,
+               arr[i]->priority);
+    }
+
+    if (count == 0) {
+        printf("No events found.\n");
+    }
+}
+
+// ================= FREE TIME SLOTS =================
+void showFreeTimeSlots(struct Calendar* cal) {
+    int day;
+    printf("Enter date (1-31): ");
+    scanf("%d", &day);
+
+    struct Event* events[100];
+    int count = 0;
+    struct Event* current = cal->head;
+
+    while (current != NULL) {
+        if (current->day == day) {
+            events[count++] = current;
+        }
+        current = current->next;
+    }
+
+    // sort
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - i - 1; j++) {
+
+            int t1 = events[j]->startHour * 60 + events[j]->startMinute;
+            int t2 = events[j+1]->startHour * 60 + events[j+1]->startMinute;
+
+            if (t1 > t2) {
+                struct Event* temp = events[j];
+                events[j] = events[j+1];
+                events[j+1] = temp;
             }
         }
     }
 
     int workStart = 9 * 60;
     int workEnd = 17 * 60;
+    int currentTime = workStart;
 
-    int current = workStart;
+    printf("\nFREE TIME SLOTS:\n");
 
-    printf("\n--- FREE TIME SLOTS ---\n");
+    for (int i = 0; i < count; i++) {
 
-    for (int i = 0; i < n; i++) {
-        int s = timeToMinutes(arr[i]->startHour, arr[i]->startMinute);
-        int e = timeToMinutes(arr[i]->endHour, arr[i]->endMinute);
+        int start = events[i]->startHour * 60 + events[i]->startMinute;
 
-        if (s > current) {
+        if (start > currentTime) {
             printf("%02d:%02d - %02d:%02d\n",
-                   current / 60, current % 60,
-                   s / 60, s % 60);
+                   currentTime/60, currentTime%60,
+                   start/60, start%60);
         }
 
-        if (e > current)
-            current = e;
+        int end = events[i]->endHour * 60 + events[i]->endMinute;
+        if (end > currentTime) {
+            currentTime = end;
+        }
     }
 
-    if (current < workEnd) {
+    if (currentTime < workEnd) {
         printf("%02d:%02d - %02d:%02d\n",
-               current / 60, current % 60,
-               workEnd / 60, workEnd % 60);
+               currentTime/60, currentTime%60,
+               workEnd/60, workEnd%60);
     }
 }
