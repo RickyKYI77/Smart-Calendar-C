@@ -1,176 +1,163 @@
-Smart Calendar System (Data Structures Project)
+Smart Calendar System
 
-This project is a terminal-based Smart Calendar System written in C, developed for a Data Structures course.
-It allows users to manage events efficiently with features such as event scheduling, searching, editing, undo functionality, and persistent data storage.
+A console-based Smart Calendar Management System written in C that allows users to efficiently manage daily events using Data Structures and Algorithms.
+The system supports event scheduling, conflict detection, undo functionality, category organization, and automatic storage using file handling.
 
-The system uses fundamental data structures such as linked lists and stacks to manage calendar events dynamically.
+This project demonstrates the practical use of:
+1.Linked Lists
+2.Stacks
+3.Binary Search Trees
+4.Sorting Algorithms
+5.File Handling in C
 
-Introduction
+Project Overview
 
-Managing events and schedules is an essential part of daily life. Traditional calendars often lack:
+The Smart Calendar System helps users organize their schedules by allowing them to:
+-Add and manage events
+-Detect scheduling conflicts
+-Search events efficiently
+-View free time slots during working hours
+-Undo deleted events
+-Automatically save and load data
+The project focuses on efficient event organization using classic data structures.
 
-Quick searching of events
-Category-based organization
-Priority management
-Undo functionality after deletion
-Persistent storage when the program closes
+Key Features
 
-This Smart Calendar System solves these issues by:
+1.Event Management
+Add events with:
+-Title
+-Date
+-Start and end time
+-Category
+-Priority level
+-Delete events using Event ID
+-Undo the last deleted event using stack operations
+2.Smart Scheduling
+-Automatic time conflict detection
+-Prevents overlapping events
+-Shows available free time slots
+3.Search Functions
+-Search by keyword
+-Search by category
+-Search by specific date
+4.Data Persistence
+-Events are stored in a file system
+-Data automatically loads when the program starts
+5.Data Structures Used
+Data Structure                  Purpose
+Linked List    ----->	        Store events dynamically
+Stack ----->                    Undo deleted events
+Binary Search Tree ----->	Organize event categories
+Arrays ----->                   Temporary sorting of events by time
 
-Using a Linked List to store events dynamically
-Using a Stack to track deleted events for Undo
-Providing search functions by keyword and category
-Allowing users to edit events easily
-Saving data to a text file for persistence
-Overview
+System Architecture
 
-This application enables users to organize events efficiently through a command-line interface.
 
-Users can:
+                    +---------------------+
+                    |       User          |
+                    +----------+----------+
+                               |
+                               v
+                    +---------------------+
+                    |   Calendar System   |
+                    +----------+----------+
+                               |
+        +----------------------+----------------------+
+        |                      |                      |
+        v                      v                      v
++--------------+      +----------------+      +------------------+
+| Linked List  |      |      Stack     |      |  Binary Search   |
+| (Events)     |      | (Undo Delete)  |      | Tree (Categories)|
++--------------+      +----------------+      +------------------+
+        |
+        v
++-----------------------+
+|   File Storage        |
+|  calendar_data.txt    |
++-----------------------+
 
-Add events with date, category, and priority
-Delete and undo deleted events
-Search events by keyword or category
-Edit existing events
-View a dynamic monthly calendar
-Automatically mark days with events using *
-Save and load events from a file
+Event Structure
 
-This project demonstrates how data structures can be used to build practical real-world applications.
+struct Event {
+    int id;
+    int day, month, year;
+    int startHour, startMinute;
+    int endHour, endMinute;
+    char title[100];
+    char category[50];
+    int priority;
+    struct Event* next;
+};
 
-Features
-Event Management
-Add New Event
-Edit Existing Event
-Delete Event
-Undo Last Deleted Event
-Smart Searching
-Search Events by Keyword
-Search Events by Category
-View events sorted by date
-Dynamic Calendar Display
-Monthly calendar display
-Dates with events marked using *
-Automatic calendar update after adding or deleting events
-Data Persistence
-Save events to text file
-Load events automatically when the program starts
-Prevent data loss after exiting the program
-Data Structures Used
-Data Structure	Purpose	Time Complexity
-Linked List	Store events dynamically	Insert: O(n), Search: O(n)
-Stack	Store deleted events for Undo	Push/Pop: O(1)
-File System (.txt)	Persistent event storage	Read/Write: O(n)
-File Structure
-Smart-Calendar-System/
-│
-├── src/
-│   ├── main.c          # Program entry point and menu
-│   ├── calendar.c      # Event operations and calendar display
-│   ├── calendar.h      # Event structures and function declarations
-│   ├── file.c          # File save/load functions
-│   └── file.h          # File operation declarations
-│
-├── data/
-│   └── calendar_data.txt   # Stored event data
-│
-├── README.md
-└── .gitignore
-How to Run the Code
-Requirements
-C Compiler (GCC recommended)
-All .c and .h files in the correct folders
-Compilation
+Program Modules
 
-Run the following command:
+1.Event Management
+-createEvent()
+-insertEvent()
+-addEvent()
+-deleteEvent()
+-undoDelete()
+2.Search System
+-searchByKeyword()
+-searchByCategory()
+-searchByDate()
+3.Scheduling Logic
+-hasOverlap() – detects time conflicts
+-showFreeTimeSlots() – displays available time slots
+4.File Handling
+-saveToFile() – saves events
+-loadFromFile() – loads saved events
 
-gcc -o calendar src/main.c src/calendar.c src/file.c
-Run the Program
-MacOS / Linux
+Free Time Slot Detection
+
+The system calculates free time slots by:
+-Collecting events for the selected day
+-Sorting them by start time
+-Comparing event times with working hours (9:00 AM – 5:00 PM)
+-Detecting gaps between events
+
+How to compile
+gcc calendar.c -o calendar
+
+How to Run
 ./calendar
-Windows
-calendar.exe
-Sample Menu
+
+Example Menu
+
+No existing save file found. Starting with empty calendar.
+
 ========== SMART CALENDAR ==========
-
-1. Add Event
-2. Delete Event
-3. Undo Delete
-4. Search by Keyword
-5. Search by Category
-6. Edit Event
-7. Exit
-
-Enter choice:
-Example Calendar Display
-        APRIL 2026
-=========================
+            APRIL 2026
+====================================
 Sun Mon Tue Wed Thu Fri Sat
-            1   2   3
- 4   5*  6   7   8   9  10
-11  12   13  14* 15  16  17
-18  19   20  21  22  23  24
-25  26   27  28  29  30
-=========================
+             1   2  3   4
+ 5   6   7   8   9  10  11
+ 12  13  14  15  16  17 18
+ 19  20  21  22  23  24 25
+ 26  27  28  29  30
+ =================================
+ * = Event scheduled (number = event count on that day)
+Working hours: 9:00 AM - 5:00 PM (Weekdays only)
+=========== MENU ===========
+1.Add Event
+2.Delete Event
+3.Undo Delete
+4.Search by Keyword
+5.Search by Category
+6.Search by Date
+7.Show Free TIme Slots
+8.Show Categoty Tree
+9.Edit Event
+10.Show All Events
+11.Exit
+Enter choice:
 
-* = Event scheduled
-Test Cases
-Test Case 1 — Add Event
+------------------------------------------------------------------------
 
-Input:
 
-Option: 1
-Title: Assignment Submission
-Date: 5
-Category: School
-Priority: 3
 
-Output:
 
-Event added successfully!
-Test Case 2 — Delete Event
 
-Input:
 
-Option: 2
-Event Title: Assignment Submission
 
-Output:
 
-Event deleted successfully!
-Test Case 3 — Undo Delete
-
-Input:
-
-Option: 3
-
-Output:
-
-Last deleted event restored successfully!
-Test Case 4 — Search Event
-
-Input:
-
-Option: 4
-Keyword: Assignment
-
-Output:
-
-Assignment Submission | Date: 5 | Category: School | Priority: 3
-Edge Cases Tested
-Deleting events that do not exist
-Searching with no matching results
-Undo when there is no deleted event
-Invalid date inputs
-Invalid priority values
-Empty calendar operations
-Group Members
-Name	Role / Responsibilities
-Member 1	Event Management Functions (Add, Delete, Edit)
-Member 2	Search Functions, Undo Stack, File Storage
-Member 3	Calendar Display, Program Flow, System Documentation
-Project Documentation
-
-Report, flowcharts, and presentation slides were created collaboratively by all team members.
-
-The project demonstrates the practical use of data structures such as linked lists and stacks in a real-world application.
