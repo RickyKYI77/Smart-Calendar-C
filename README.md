@@ -50,31 +50,33 @@ Stack ----->                    Undo deleted events
 Binary Search Tree ----->	Organize event categories
 Arrays ----->                   Temporary sorting of events by time
 
-System Architecture
+## System Architecture
 
-
-                    +---------------------+
-                    |       User          |
-                    +----------+----------+
-                               |
-                               v
-                    +---------------------+
-                    |   Calendar System   |
-                    +----------+----------+
-                               |
-        +----------------------+----------------------+
-        |                      |                      |
-        v                      v                      v
+```
+                +---------------------+
+                |        User         |
+                +----------+----------+
+                           |
+                           v
+                +---------------------+
+                |    Calendar System  |
+                +----------+----------+
+                           |
+    +----------------------+----------------------+
+    |                      |                      |
+    v                      v                      v
 +--------------+      +----------------+      +------------------+
 | Linked List  |      |      Stack     |      |  Binary Search   |
-| (Events)     |      | (Undo Delete)  |      | Tree (Categories)|
+|  (Events)    |      | (Undo Delete)  |      | Tree (Categories)|
 +--------------+      +----------------+      +------------------+
         |
         v
 +-----------------------+
-|   File Storage        |
-|  calendar_data.txt    |
+|      File Storage     |
+|   calendar_data.txt   |
 +-----------------------+
+```
+
 
 Event Structure
 
@@ -122,23 +124,39 @@ gcc calendar.c -o calendar
 How to Run
 ./calendar
 
+## Program Startup Output
+
+```
+========== SMART CALENDAR ==========
+        APRIL 2026
+=========================
+Sun Mon Tue Wed Thu Fri Sat
+        1   2   3   4   5
+ 6   7   8   9  10  11  12
+13  14  15  16  17  18  19
+20  21  22  23  24  25  26
+27  28  29  30
+=========================
+* = Event scheduled (number = event count on that day)
+Working hours: 9:00 AM - 5:00 PM (Weekdays only)
+
+========== MENU ==========
+1. Add Event
+2. Delete Event
+3. Undo Delete
+4. Search by Keyword
+5. Search by Category
+6. Search by Date
+7. Show Free Time Slots
+8. Show Category Tree
+9. Edit Event
+10. Show All Events
+11. Exit
+Enter choice:
+```
+
 Example Menu
 
-No existing save file found. Starting with empty calendar.
-
-========== SMART CALENDAR ==========
-            APRIL 2026
-====================================
-Sun Mon Tue Wed Thu Fri Sat
-             1   2  3   4
- 5   6   7   8   9  10  11
- 12  13  14  15  16  17 18
- 19  20  21  22  23  24 25
- 26  27  28  29  30
- =================================
- * = Event scheduled (number = event count on that day)
-Working hours: 9:00 AM - 5:00 PM (Weekdays only)
-=========== MENU ===========
 1.Add Event
 2.Delete Event
 3.Undo Delete
@@ -150,14 +168,32 @@ Working hours: 9:00 AM - 5:00 PM (Weekdays only)
 9.Edit Event
 10.Show All Events
 11.Exit
-Enter choice:
 
-------------------------------------------------------------------------
+Challenges Faced
 
+-Handling time overlap detection
+-Managing dynamic memory allocation
+-Keeping events sorted by date and time
+-Implementing undo functionality with stacks
+-Maintaining persistent storage with file handling
 
+Future Improvements
 
+Possible upgrades to the system:
+1.Graphical User Interface (GUI)
+2.Monthly calendar view
+3.Event reminders
+4.Mobile or web integration
+5.Multi-user scheduling
+6.Database storage instead of text files
 
+Learning Outcomes
 
+This project helped demonstrate:
+-Practical use of Data Structures
+-Efficient memory management in C
+-Building real-world applications with algorithms
+-Structuring a modular C program
 
 
 
