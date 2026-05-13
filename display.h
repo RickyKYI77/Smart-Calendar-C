@@ -1,10 +1,11 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
-#include "event_core.h"
+#include "calendar.h"
 
-void displayMenu();
 void displayCalendar(struct Calendar* cal);
+void displayMenu();
 void showAllEvents(struct Calendar* cal);
+int getEventCount(struct Calendar* cal, int day);
 
 #endif
