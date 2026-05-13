@@ -1,6 +1,8 @@
 #ifndef EVENT_CORE_H
 #define EVENT_CORE_H
 
+// ================= DATA STRUCTURES =================
+
 struct Event {
     int id;
     int day, month, year;
@@ -23,15 +25,15 @@ struct Calendar {
     int nextID;
 };
 
-// Core functions
+// ================= CORE OPERATIONS =================
+
 struct Event* createEvent(struct Calendar* cal);
 void insertEvent(struct Calendar* cal, struct Event* e);
 void addEvent(struct Calendar* cal);
 void deleteEvent(struct Calendar* cal);
 void undoDelete(struct Calendar* cal);
 void editEvent(struct Calendar* cal);
-
-// Utility
 int hasOverlap(struct Calendar* cal, struct Event* newEvent);
+void freeAllEvents(struct Calendar* cal);
 
 #endif

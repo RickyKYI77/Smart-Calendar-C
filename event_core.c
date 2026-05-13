@@ -3,6 +3,8 @@
 #include <string.h>
 #include "event_core.h"
 
+// ===== STACK =====
+
 void pushDeleted(struct Calendar* cal, struct Event* e) {
     struct StackNode* node = malloc(sizeof(struct StackNode));
     node->event = e;
@@ -21,9 +23,7 @@ struct Event* popDeleted(struct Calendar* cal) {
     return e;
 }
 
-int timeOverlap(int s1, int e1, int s2, int e2) {
-    return (s1 < e2 && s2 < e1);
-}
+// ===== OVERLAP =====
 
 int hasOverlap(struct Calendar* cal, struct Event* newEvent) {
     struct Event* curr = cal->head;
@@ -36,12 +36,15 @@ int hasOverlap(struct Calendar* cal, struct Event* newEvent) {
             int cs = curr->startHour * 60 + curr->startMinute;
             int ce = curr->endHour * 60 + curr->endMinute;
 
-            if (timeOverlap(ns, ne, cs, ce)) return 1;
+            if (ns < ce && cs < ne)
+                return 1;
         }
         curr = curr->next;
     }
     return 0;
 }
+
+// ===== CREATE EVENT =====
 
 struct Event* createEvent(struct Calendar* cal) {
     struct Event* e = malloc(sizeof(struct Event));
@@ -70,7 +73,7 @@ struct Event* createEvent(struct Calendar* cal) {
     printf("Category: ");
     scanf(" %[^\n]", e->category);
 
-    printf("Priority (1-3): ");
+    printf("Priority: ");
     scanf("%d", &e->priority);
 
     e->id = cal->nextID++;
@@ -78,6 +81,8 @@ struct Event* createEvent(struct Calendar* cal) {
 
     return e;
 }
+
+// ===== INSERT =====
 
 void insertEvent(struct Calendar* cal, struct Event* e) {
     if (!cal->head || cal->head->day > e->day) {
@@ -94,11 +99,13 @@ void insertEvent(struct Calendar* cal, struct Event* e) {
     curr->next = e;
 }
 
+// ===== ADD =====
+
 void addEvent(struct Calendar* cal) {
     struct Event* e = createEvent(cal);
 
     if (hasOverlap(cal, e)) {
-        printf("Overlap detected!\n");
+        printf("Overlap!\n");
         free(e);
         return;
     }
@@ -107,9 +114,11 @@ void addEvent(struct Calendar* cal) {
     printf("Added.\n");
 }
 
+// ===== DELETE =====
+
 void deleteEvent(struct Calendar* cal) {
     int id;
-    printf("Enter ID: ");
+    printf("ID: ");
     scanf("%d", &id);
 
     struct Event *curr = cal->head, *prev = NULL;
@@ -126,9 +135,9 @@ void deleteEvent(struct Calendar* cal) {
         prev = curr;
         curr = curr->next;
     }
-
-    printf("Not found.\n");
 }
+
+// ===== UNDO =====
 
 void undoDelete(struct Calendar* cal) {
     struct Event* e = popDeleted(cal);
@@ -142,6 +151,40 @@ void undoDelete(struct Calendar* cal) {
     printf("Restored.\n");
 }
 
+// ===== EDIT =====
+
 void editEvent(struct Calendar* cal) {
-    printf("Edit feature (can extend later)\n");
+    int id;
+    printf("ID: ");
+    scanf("%d", &id);
+
+    struct Event* curr = cal->head;
+
+    while (curr) {
+        if (curr->id == id) {
+            printf("New title: ");
+            scanf(" %[^\n]", curr->title);
+
+            printf("New category: ");
+            scanf(" %[^\n]", curr->category);
+
+            printf("Updated.\n");
+            return;
+        }
+        curr = curr->next;
+    }
+}
+
+// ===== FREE =====
+
+void freeAllEvents(struct Calendar* cal) {
+    struct Event* curr = cal->head;
+
+    while (curr) {
+        struct Event* temp = curr;
+        curr = curr->next;
+        free(temp);
+    }
+
+    cal->head = NULL;
 }

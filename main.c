@@ -11,42 +11,59 @@ int main() {
         displayCalendar(&cal);
         displayMenu();
 
-    while (1) {
-        displayMenu();
         scanf("%d", &choice);
 
         switch (choice) {
             case 1:
                 addEvent(&cal);
-                saveToFile(&cal, "calendar.txt");
                 break;
 
             case 2:
                 deleteEvent(&cal);
-                saveToFile(&cal, "calendar.txt");
                 break;
 
             case 3:
                 undoDelete(&cal);
-                saveToFile(&cal, "calendar.txt");
                 break;
 
             case 4:
-                showAllEvents(&cal);
+                searchByKeyword(&cal);
                 break;
 
             case 5:
-                editEvent(&cal);
-                saveToFile(&cal, "calendar.txt");
+                searchByCategory(&cal);
                 break;
 
             case 6:
+                searchByDate(&cal);
+                break;
+
+            case 7:
+                showFreeTimeSlots(&cal);
+                break;
+
+            case 8:
+                showCategoryTree(&cal);
+                break;
+
+            case 9:
+                editEvent(&cal);
+                break;
+
+            case 10:
+                showAllEvents(&cal);
+                break;
+
+            case 11:
                 saveToFile(&cal, "calendar.txt");
+                freeAllEvents(&cal);
+                printf("Exiting...\n");
                 return 0;
 
             default:
-                printf("Invalid.\n");
+                printf("Invalid choice.\n");
         }
+
+        saveToFile(&cal, "calendar.txt");
     }
-}
 }

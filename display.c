@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "display.h"
 
 int getEventCount(struct Calendar* cal, int day) {
@@ -79,15 +81,59 @@ void showAllEvents(struct Calendar* cal) {
 }
 
 void displayMenu() {
-
     printf("\n========== MENU ==========\n");
 
     printf("1. Add Event\n");
     printf("2. Delete Event\n");
     printf("3. Undo Delete\n");
-    printf("4. Show All Events\n");
-    printf("5. Edit Event\n");
-    printf("6. Exit\n");
+    printf("4. Search by Keyword\n");
+    printf("5. Search by Category\n");
+    printf("6. Search by Date\n");
+    printf("7. Show Free Time Slots\n");
+    printf("8. Show Category Tree\n");
+    printf("9. Edit Event\n");
+    printf("10. Show All Events\n");
+    printf("11. Save & Exit\n");
 
     printf("Enter choice: ");
+}
+
+void showCategoryTree(struct Calendar* cal) {
+    if (cal->head == NULL) {
+        printf("\nNo events available.\n");
+        return;
+    }
+
+    printf("\n========== CATEGORY OVERVIEW ==========\n");
+
+    struct Event* current = cal->head;
+
+    // Simple frequency display using temporary arrays
+    char categories[100][50];
+    int counts[100];
+    int size = 0;
+
+    while (current != NULL) {
+        int found = 0;
+
+        for (int i = 0; i < size; i++) {
+            if (strcmp(categories[i], current->category) == 0) {
+                counts[i]++;
+                found = 1;
+                break;
+            }
+        }
+
+        if (!found) {
+            strcpy(categories[size], current->category);
+            counts[size] = 1;
+            size++;
+        }
+
+        current = current->next;
+    }
+
+    for (int i = 0; i < size; i++) {
+        printf("%s : %d event(s)\n", categories[i], counts[i]);
+    }
 }
