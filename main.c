@@ -1,63 +1,55 @@
 #include <stdio.h>
-#include <stdlib.h>
+
 #include "calendar.h"
-#include "file.h"
-
-// ================= MENU =================
-
-void displayMenu() {
-    printf("\n========== MENU ==========\n");
-    printf("1. Add Event\n");
-    printf("2. Delete Event\n");
-    printf("3. Undo Delete\n");
-    printf("4. Search by Keyword\n");
-    printf("5. Search by Category\n");
-    printf("6. Edit Event\n");
-    printf("7. Exit\n");
-    printf("Enter choice: ");
-}
-
-// ================= MAIN =================
 
 int main() {
-    struct Calendar myCalendar = {NULL, NULL};
+
+    struct Calendar cal = {NULL, NULL, 1};
+
     int choice;
-    
-    loadFromFile(&myCalendar, "calendar_data.txt");
-    
+
+    loadFromFile(&cal, "calendar.txt");
+
     while (1) {
-        printf("\n========== SMART CALENDAR ==========");
-        displayCalendar(&myCalendar);
+
+        displayCalendar(&cal);
+
         displayMenu();
 
         scanf("%d", &choice);
 
         switch (choice) {
-            case 1: 
-                addEvent(&myCalendar); 
+
+            case 1:
+                addEvent(&cal);
+                saveToFile(&cal, "calendar.txt");
                 break;
-            case 2: 
-                deleteEvent(&myCalendar); 
+
+            case 2:
+                deleteEvent(&cal);
+                saveToFile(&cal, "calendar.txt");
                 break;
-            case 3: 
-                undoDelete(&myCalendar); 
+
+            case 3:
+                undoDelete(&cal);
+                saveToFile(&cal, "calendar.txt");
                 break;
-            case 4: 
-                searchByKeyword(&myCalendar); 
+
+            case 4:
+                showAllEvents(&cal);
                 break;
-            case 5: 
-                searchByCategory(&myCalendar); 
+
+            case 5:
+                editEvent(&cal);
+                saveToFile(&cal, "calendar.txt");
                 break;
-            case 6: 
-                editEvent(&myCalendar); 
-                break;
-            case 7:
-                saveToFile(&myCalendar, "calendar_data.txt");
-                freeAllEvents(&myCalendar);
-                printf("Calendar saved. Exiting program...\n");
+
+            case 6:
+                saveToFile(&cal, "calendar.txt");
                 return 0;
+
             default:
-                printf("Invalid option.\n");
+                printf("Invalid.\n");
         }
     }
 }
