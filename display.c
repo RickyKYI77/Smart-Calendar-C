@@ -22,7 +22,7 @@ void displayCalendar(struct Calendar* cal) {
 
     printf("\n        APRIL 2026\n");
     printf("=========================\n");
-    printf("Sun Mon Tue Wed Thu Fri Sat\n");
+    printf("Sun  Mon  Tue  Wed  Thu  Fri  Sat\n");
 
     // April 2026 starts on Wednesday (offset = 3)
     int firstDayOffset = 3;
