@@ -28,7 +28,7 @@ void displayCalendar(struct Calendar* cal) {
     int firstDayOffset = 3;
 
     for (int i = 0; i < firstDayOffset; i++) {
-        printf("  ");
+        printf("    ");
     }
 
     for (int day = 1; day <= 30; day++) {
