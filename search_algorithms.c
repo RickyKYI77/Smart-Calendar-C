@@ -67,7 +67,7 @@ void searchByCategory(struct Calendar* cal) {
 // ================= SEARCH BY DATE =================
 void searchByDate(struct Calendar* cal) {
     int day;
-    printf("Enter date (1-30): ");
+    printf("Enter date (1-31): ");
     scanf("%d", &day);
 
     struct Event* current = cal->head;
