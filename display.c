@@ -36,7 +36,7 @@ void displayCalendar(struct Calendar* cal) {
         int eventCount = getEventCount(cal, day);
 
         if (eventCount == 0) {
-            printf("%2d  ", day);
+            printf("%-6s  ", day);
         } else if (eventCount == 1) {
             printf("%2d* ", day);
         } else {
