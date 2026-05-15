@@ -58,3 +58,4 @@ void displayCalendar(struct Calendar* cal) {
     printf("* = Event scheduled | number = event count\n");
     printf("Updates automatically after add/delete/edit\n");
 }
+//Re
