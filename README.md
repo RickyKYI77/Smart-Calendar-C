@@ -237,8 +237,8 @@ Possible upgrades to the system:
 | Name | Student ID | GitHub | Responsibilities | Key Functions |
 |-----|------------|--------|------------------|---------------|
 | **Thaw Lin Htut** | 68070503408 | [GitHub Profile](https://github.com/thawlinhtut) | • File saving and loading system <br> • Menu design and user interaction <br> • Calendar and event display <br> • Category Tree implementation using Binary Search Tree (BST) | `saveToFile()` <br> `loadFromFile()` <br> `displayCalendar()` <br> `displayMenu()` <br> `showAllEvents()` <br> `showCategoryTree()` |
-| **Aye Theingi Myo** | 68070503463 | [GitHub Profile](https://github.com/AyeTheingiMyo) | • Event search features <br> • Event sorting using Bubble Sort <br> • Time conflict detection <br> • Free time slot calculation | `searchByKeyword()` <br> `searchByCategory()` <br> `searchByDate()` <br> `showFreeTimeSlots()` <br> `hasOverlap()` <br> `timeOverlap()` |
-| **Kyi Phyu Thaw** | 68070503464 | [GitHub Profile](https://github.com/RickyKYI77) | • Linked List for event storage <br> • Event insertion sorted by date and time <br> • Delete and undo operations using Stack <br> • Memory management and ID handling | `createEvent()` <br> `insertEvent()` <br> `deleteEvent()` <br> `undoDelete()` <br> `freeAllEvents()` |
+| **Aye Theingi Myo** | 68070503463 | [GitHub Profile](https://github.com/AyeTheingiMyo) | • Event search features <br> • Event sorting using Bubble Sort <br> • Free time slot calculation | `searchByKeyword()` <br> `searchByCategory()` <br> `searchByDate()` <br> `showFreeTimeSlots()` |
+| **Kyi Phyu Thaw** | 68070503464 | [GitHub Profile](https://github.com/RickyKYI77) | • Linked List for event storage <br> • Event insertion sorted by date and time <br> • Delete and undo operations using Stack <br> • Time conflict detection <br> • Memory management and ID handling | `createEvent()` <br> `insertEvent()` <br> `deleteEvent()` <br> `undoDelete()` <br> `hasOverlap()` <br> `timeOverlap()` <br> `freeAllEvents()` |
 
 ## Learning Outcomes
 
