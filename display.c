@@ -36,11 +36,11 @@ void displayCalendar(struct Calendar* cal) {
         int eventCount = getEventCount(cal, day);
 
         if (eventCount == 0) {
-            printf("%3d  ", day);
+            printf("%2d  ", day);
         } else if (eventCount == 1) {
-            printf("%3d* ", day);
+            printf("%2d* ", day);
         } else {
-            printf("%3d*%d", day, eventCount);
+            printf("%2d*%d", day, eventCount);
         }
 
         // spacing fix for alignment
