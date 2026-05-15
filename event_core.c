@@ -42,10 +42,10 @@ struct Event* createEvent(struct Calendar* cal) {
     printf("Enter event title: ");
     scanf(" %[^\n]", e->title);
 
-    printf("Enter date (1-30): ");
+    printf("Enter date (1-31): ");
     scanf("%d", &e->day);
 
-    while (e->day < 1 || e->day > 30) {
+    while (e->day < 1  e->day > 31) {
         printf("Invalid day! Enter again: ");
         scanf("%d", &e->day);
     }
@@ -86,7 +86,7 @@ struct Event* createEvent(struct Calendar* cal) {
     printf("Enter priority (1-3): ");
     scanf("%d", &e->priority);
 
-    while (e->priority < 1 || e->priority > 3) {
+    while (e->priority < 1  e->priority > 3) {
         printf("Invalid priority! Enter again: ");
         scanf("%d", &e->priority);
     }
@@ -99,7 +99,7 @@ struct Event* createEvent(struct Calendar* cal) {
 
 // ================= INSERT EVENT =================
 void insertEvent(struct Calendar* cal, struct Event* e) {
-    if (cal->head == NULL ||
+    if (cal->head == NULL 
         cal->head->day > e->day) {
 
         e->next = cal->head;
@@ -110,7 +110,7 @@ void insertEvent(struct Calendar* cal, struct Event* e) {
     struct Event* current = cal->head;
 
     while (current->next != NULL &&
-          (current->next->day < e->day ||
+          (current->next->day < e->day 
           (current->next->day == e->day &&
            current->next->startHour * 60 + current->next->startMinute <
            e->startHour * 60 + e->startMinute))) {
@@ -154,8 +154,7 @@ void deleteEvent(struct Calendar* cal) {
                 cal->head = current->next;
             else
                 prev->next = current->next;
-
-            pushDeleted(cal, current);
+                pushDeleted(cal, current);
 
             printf("Event deleted successfully!\n");
             return;
@@ -282,3 +281,5 @@ void showCategoryTree(struct Calendar* cal) {
         current = current->next;
     }
 }
+
+//working version
