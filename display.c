@@ -22,13 +22,13 @@ void displayCalendar(struct Calendar* cal) {
 
     printf("\n        APRIL 2026\n");
     printf("=========================\n");
-    printf("Sun  Mon  Tue  Wed  Thu  Fri  Sat\n");
+    printf("Sun Mon Tue Wed Thu FriSat\n");
 
     // April 2026 starts on Wednesday (offset = 3)
     int firstDayOffset = 3;
 
     for (int i = 0; i < firstDayOffset; i++) {
-        printf("    ");
+        printf("  ");
     }
 
     for (int day = 1; day <= 30; day++) {
@@ -36,7 +36,7 @@ void displayCalendar(struct Calendar* cal) {
         int eventCount = getEventCount(cal, day);
 
         if (eventCount == 0) {
-            printf("%-6d  ", day);
+            printf("%2d  ", day);
         } else if (eventCount == 1) {
             printf("%2d* ", day);
         } else {
