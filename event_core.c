@@ -42,10 +42,10 @@ struct Event* createEvent(struct Calendar* cal) {
     printf("Enter event title: ");
     scanf(" %[^\n]", e->title);
 
-    printf("Enter date (1-31): ");
+    printf("Enter date (1-30): ");
     scanf("%d", &e->day);
 
-    while (e->day < 1 || e->day > 31) {
+    while (e->day < 1 || e->day > 30) {
         printf("Invalid day! Enter again: ");
         scanf("%d", &e->day);
     }
